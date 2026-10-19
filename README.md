@@ -26,6 +26,28 @@ The homepage is the app search and guide builder. The guide is organized around 
 
 Google Drive, Slack, GitHub, and Linear are the managed-directory examples. Acuity Scheduling is an example of a provider-native OAuth flow outside the managed examples. These examples demonstrate different setup paths; they do not represent a 100-app library.
 
+### Example 1: Acuity Scheduling is not in the managed directory
+
+Suppose a developer wants an agent to read appointments and summarize the week's availability. Atlas checks the Composio directory first. In this demo's directory examples, Acuity is not listed as a managed toolkit, so Atlas follows Acuity's own OAuth documentation instead of showing Composio connection commands.
+
+The guide explains that Acuity recommends OAuth2 when a product connects multiple customers' Acuity accounts. It identifies the documented `api-v1` scope, points to Acuity's OAuth endpoints, and provides a server-side OAuth example for the selected language. The developer registers for an Acuity OAuth client and supplies the exact callback URL. Atlas labels registration review timing unknown because Acuity's public documentation does not publish a duration.
+
+Atlas can prepare the implementation outline, code scaffold, and questions for Acuity. The developer must register the client, obtain and protect credentials, confirm any account or registration requirements, and approve users' connections. The guide's source links point to Acuity's [OAuth2 documentation](https://developers.acuityscheduling.com/docs/oauth2), [developer signup](https://developers.acuityscheduling.com/docs/signup), and [SDK documentation](https://developers.acuityscheduling.com/docs/sdks).
+
+Try it in the live site by entering **Acuity Scheduling** and the task “Read appointments and summarize weekly availability.”
+
+### Example 2: Google Drive is in the managed directory
+
+Suppose a developer wants an agent to find project files and upload a weekly report. Atlas finds Google Drive as a Composio-managed toolkit. The first path is to use Composio's managed OAuth, so the developer can avoid registering a separate Google OAuth app for a basic connection.
+
+The guide asks the developer to choose the exact Google Drive actions needed. It includes Python and TypeScript snippets that use the developer's own Composio API key in their backend to look up scopes for those action IDs. This makes the permission recommendation task-specific; the developer should review the result before asking a user to consent. The guide also explains when the developer may need a custom Google app, such as for their own consent-screen branding, custom scopes, or quota, and links to Google's verification requirements.
+
+Composio can handle the managed connection flow, but the developer still builds and tests the feature, keeps any keys server-side, and the user must approve access to their Google account. If the developer chooses a custom Google OAuth app, they must configure its Google Cloud project and consent screen and submit any required verification materials. Google publishes different review stages and durations for certain verification paths; Atlas shows those separately from hands-on setup estimates.
+
+Try it in the live site by entering **Google Drive** and the task “Find project files and upload a weekly report.”
+
+These two examples show the key product decision: first determine who provides the OAuth app and connection flow, then give implementation steps that match that path. Managed status does not mean every provider review, developer task, or end-user consent step disappears.
+
 ## System architecture
 
 This is a small JavaScript Worker application. `worker/index.js` contains the HTTP handlers, guide data, research helpers, and page UI. `scripts/build.sh` creates the deployable `dist/` artifact. The project has no runtime package dependencies.
